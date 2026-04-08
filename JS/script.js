@@ -318,22 +318,24 @@ const navLinks = document.querySelectorAll(".nav-links a");
 const sections = document.querySelectorAll("section[id]");
 
 function setActiveLink() {
-  let current = "";
+  const navHeight = document.querySelector("nav").offsetHeight;
+  const scrollPosition = window.pageYOffset + navHeight + 10;
+  let current = "home";
 
   sections.forEach((section) => {
     const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-    if (pageYOffset >= sectionTop - sectionHeight / 3) {
+    if (scrollPosition >= sectionTop) {
       current = section.getAttribute("id");
     }
   });
 
   navLinks.forEach((link) => {
-    link.classList.remove("active");
-    if (link.getAttribute("href") === "#" + current) {
-      link.classList.add("active");
-    }
+    link.classList.toggle(
+      "active",
+      link.getAttribute("href") === `#${current}`,
+    );
   });
 }
 
 window.addEventListener("scroll", setActiveLink);
+setActiveLink();
